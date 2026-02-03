@@ -28,23 +28,28 @@ class VideoRecorder {
         try {
             console.log('Requesting screen recording permissions...');
             
+            // Clear any existing streams first
+            if (this.stream) {
+                this.stream.getTracks().forEach(track => track.stop());
+                this.stream = null;
+            }
+            
             // Check if running on localhost or file protocol
             const isLocalFile = window.location.protocol === 'file:';
             const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             
             if (isLocalFile) {
                 console.warn('File protocol detected - screen recording may be limited');
-                // Show warning to user
                 this.showProtocolWarning();
             }
             
-            // Request screen capture with specific options for local files
+            // Enhanced display media options
             const displayMediaOptions = {
                 video: {
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                    frameRate: { ideal: 30 },
-                    cursor: 'always' // Show cursor in recording
+                    width: { ideal: 1920, max: 1920 },
+                    height: { ideal: 1080, max: 1080 },
+                    frameRate: { ideal: 30, max: 30 },
+                    cursor: 'always'
                 },
                 audio: {
                     echoCancellation: true,
@@ -53,18 +58,40 @@ class VideoRecorder {
                 }
             };
             
-            // For local files, try different approach
-            if (isLocalFile) {
-                displayMediaOptions.video.displaySurface = 'browser';
-                displayMediaOptions.selfBrowserSurface = 'include';
-                displayMediaOptions.surfaceSwitching = 'include';
+            // Try to get screen recording with retry mechanism
+            let attempts = 0;
+            const maxAttempts = 3;
+            
+            while (attempts < maxAttempts) {
+                try {
+                    console.log(`Screen recording attempt ${attempts + 1}/${maxAttempts}`);
+                    
+                    this.stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+                    
+                    // Check if we got a valid stream
+                    if (this.stream && this.stream.getVideoTracks().length > 0) {
+                        console.log('Screen recording stream obtained successfully');
+                        break;
+                    } else {
+                        throw new Error('No video tracks in stream');
+                    }
+                } catch (attemptError) {
+                    console.warn(`Screen recording attempt ${attempts + 1} failed:`, attemptError);
+                    attempts++;
+                    
+                    if (attempts >= maxAttempts) {
+                        throw attemptError;
+                    }
+                    
+                    // Wait before retry
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
             }
             
-            this.stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-            
-            // Get microphone audio separately
+            // Get microphone audio separately with retry
             let microphoneStream = null;
             try {
+                console.log('Requesting microphone access...');
                 microphoneStream = await navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: true,
@@ -75,6 +102,7 @@ class VideoRecorder {
                 console.log('Microphone access granted');
             } catch (micError) {
                 console.warn('Microphone access failed:', micError);
+                // Continue without microphone
             }
             
             // Combine screen video with microphone audio
@@ -84,19 +112,29 @@ class VideoRecorder {
                 // Add video track from screen
                 this.stream.getVideoTracks().forEach(track => {
                     combinedStream.addTrack(track);
+                    console.log('Added video track:', track.label);
                 });
                 
                 // Add audio track from microphone (not screen audio)
                 microphoneStream.getAudioTracks().forEach(track => {
                     combinedStream.addTrack(track);
+                    console.log('Added audio track:', track.label);
                 });
                 
                 this.stream = combinedStream;
                 console.log('Combined screen video + microphone audio');
             }
             
+            // Set up stream end handler
+            this.stream.getVideoTracks().forEach(track => {
+                track.onended = () => {
+                    console.log('Screen recording track ended');
+                    this.handleStreamEnded();
+                };
+            });
+            
             this.hasPermission = true;
-            console.log('Screen recording permissions granted');
+            console.log('Screen recording permissions granted successfully');
             
             // Update recording type indicator
             this.updateRecordingTypeLabel('Screen + Microphone');
@@ -104,6 +142,7 @@ class VideoRecorder {
             // Set up video preview (will show screen content)
             if (this.videoElement) {
                 this.videoElement.srcObject = this.stream;
+                console.log('Video preview set up');
             }
             
             // Initialize MediaRecorder for recording simulation
@@ -114,10 +153,90 @@ class VideoRecorder {
         } catch (error) {
             console.error('Error requesting screen recording permissions:', error);
             
+            // Show specific error message
+            this.showScreenRecordingError(error);
+            
             // Fallback to camera if screen recording fails
             console.log('Falling back to camera recording...');
             return await this.requestCameraPermissions();
         }
+    }
+    
+    handleStreamEnded() {
+        console.log('Screen recording stream ended by user');
+        this.hasPermission = false;
+        this.updateRecordingTypeLabel('Recording Stopped');
+        
+        // Show message to user
+        if (this.videoElement) {
+            this.videoElement.srcObject = null;
+        }
+    }
+    
+    showScreenRecordingError(error) {
+        let errorMessage = 'Screen recording failed: ';
+        let userFriendlyMessage = '';
+        
+        switch (error.name) {
+            case 'NotAllowedError':
+                errorMessage += 'Permission denied. Please allow screen recording access.';
+                userFriendlyMessage = 'Screen recording permission denied. Using camera instead.';
+                break;
+            case 'NotFoundError':
+                errorMessage += 'No screen recording capability found.';
+                userFriendlyMessage = 'Screen recording not available. Using camera instead.';
+                break;
+            case 'NotReadableError':
+                errorMessage += 'Screen recording is being used by another application.';
+                userFriendlyMessage = 'Screen recording busy. Using camera instead.';
+                break;
+            case 'AbortError':
+                errorMessage += 'Screen recording was cancelled. Please try again.';
+                userFriendlyMessage = 'Screen recording cancelled. Using camera instead.';
+                break;
+            case 'NotSupportedError':
+                errorMessage += 'Screen recording is not supported in this browser.';
+                userFriendlyMessage = 'Screen recording not supported. Using camera instead.';
+                break;
+            default:
+                errorMessage += error.message || 'Unknown error occurred.';
+                userFriendlyMessage = 'Screen recording failed. Using camera instead.';
+        }
+        
+        console.log(errorMessage); // Use log instead of error for user-initiated denials
+        
+        // Show user-friendly message
+        this.showUserMessage(userFriendlyMessage, 'info');
+    }
+    
+    showUserMessage(message, type = 'info') {
+        // Create a temporary message element
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `recording-message ${type}`;
+        messageDiv.textContent = message;
+        
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(33, 150, 243, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 1001;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            if (messageDiv && messageDiv.parentElement) {
+                messageDiv.remove();
+            }
+        }, 3000);
     }
     
     showProtocolWarning() {
@@ -523,6 +642,20 @@ class VideoRecorder {
                 muted: track.muted
             }))
         };
+    }
+    
+    // Force restart recording permissions
+    async restartRecording() {
+        console.log('Restarting recording permissions...');
+        
+        // Cleanup existing
+        this.cleanup();
+        
+        // Wait a moment
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Request again
+        return await this.requestPermissions();
     }
     
     // Test download function

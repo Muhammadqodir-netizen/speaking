@@ -203,11 +203,14 @@ class IELTSApp {
     
     handleVisibilityChange() {
         if (document.hidden) {
-            console.log('Page hidden - test may be paused');
-            // Could implement pause functionality here if needed
+            // Page hidden - could be permission dialog
+            // Don't log this as it's normal during permission requests
         } else {
-            console.log('Page visible - test resumed');
-            // Could implement resume functionality here if needed
+            // Page visible - test resumed
+            // Only log if test is actually active
+            if (this.testController.isTestActive) {
+                console.log('Page visible - test resumed');
+            }
         }
     }
     
@@ -285,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.getTestStatus = () => app.getTestStatus();
         window.getRecordingStatus = () => app.testController.videoRecorder.getRecordingStatus();
         window.testDownload = () => app.testController.videoRecorder.testDownload();
+        window.restartRecording = () => app.testController.videoRecorder.restartRecording();
         
     } catch (error) {
         console.error('Failed to initialize application:', error);
@@ -361,6 +365,11 @@ errorStyles.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.9); }
         to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 `;
 
