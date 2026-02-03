@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Mock Speaking Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h1>IELTS Mock Speaking Test</h1>
+                    <p>Complete speaking assessment simulation</p>
+                </div>
+                
+                <form id="candidateForm" class="candidate-form">
+                    <div class="form-group">
+                        <label for="candidateId">ID</label>
+                        <input type="text" id="candidateId" name="candidateId" required 
+                               placeholder="Enter your ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="candidateName">Name</label>
+                        <input type="text" id="candidateName" name="candidateName" required 
+                               placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="candidatePhone">Phone Number</label>
+                        <input type="tel" id="candidatePhone" name="candidatePhone" required 
+                               placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Before you begin:</h3>
+                        <ul>
+                            <li>The system will record your screen + microphone during the test</li>
+                            <li><strong>For local files:</strong> Select "Entire Screen" or use a local server</li>
+                            <li><strong>For web servers:</strong> Select "This Tab" to include the test interface</li>
+                            <li>Allow microphone access for your voice recording</li>
+                            <li>Find a quiet environment for clear audio</li>
+                            <li>The exam will take approximately 15-20 minutes</li>
+                            <li>You cannot pause or restart once begun</li>
+                        </ul>
+                        <div class="server-tip">
+                            <strong>💡 Tip:</strong> For best results, run: <code>python -m http.server 8000</code> then open <code>http://localhost:8000</code>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="start-btn">
+                        <span>Start Speaking Test</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Speaking Test Screen -->
+        <div id="speakingScreen" class="screen">
+            <!-- Fixed Header -->
+            <div class="fixed-header">
+                <div class="candidate-info">
+                    <div class="info-item">
+                        <span class="label">ID:</span>
+                        <span id="headerCandidateId" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Name:</span>
+                        <span id="headerCandidateName" class="value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Phone:</span>
+                        <span id="headerCandidatePhone" class="value"></span>
+                    </div>
+                </div>
+                
+                <div class="rec-indicator" id="recIndicator">
+                    <div class="rec-dot"></div>
+                    <span>REC</span>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="glass-card speaking-card">
+                    <!-- Part Header -->
+                    <div class="part-header">
+                        <h2 id="partTitle">Part 1.1</h2>
+                        <div class="question-counter">
+                            Question <span id="currentQuestion">1</span> of <span id="totalQuestions">3</span>
+                        </div>
+                    </div>
+
+                    <!-- Image Container (for Part 1.2) -->
+                    <div id="imageContainer" class="image-container" style="display: none;">
+                        <img id="questionImage" src="" alt="Question image">
+                    </div>
+
+                    <!-- Question Content -->
+                    <div class="question-content">
+                        <div class="phase-indicator">
+                            <span id="phaseLabel">Reading</span>
+                        </div>
+                        
+                        <div class="question-text" id="questionText">
+                            Loading question...
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="timeRemaining">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Preview -->
+                    <div class="video-container">
+                        <video id="videoPreview" autoplay muted></video>
+                        <div class="recording-type-indicator">
+                            <span id="recordingTypeLabel">Screen Recording</span>
+                        </div>
+                    </div>
+
+                    <!-- Stop Test Button -->
+                    <div class="stop-test-container">
+                        <button id="stopTestBtn" class="stop-test-btn">
+                            <span>🛑 Stop Test & Download Video</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transition Modal -->
+        <div id="transitionModal" class="modal">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Part 1.1 Finished</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="progress-circle">
+                        <div class="progress-ring">
+                            <svg width="120" height="120">
+                                <circle cx="60" cy="60" r="50" stroke="#ffffff20" stroke-width="8" fill="none"/>
+                                <circle id="progressCircle" cx="60" cy="60" r="50" stroke="#4CAF50" stroke-width="8" 
+                                        fill="none" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p id="modalMessage">Preparing for Part 1.2...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Screen -->
+        <div id="completionScreen" class="screen">
+            <div class="glass-card">
+                <div class="completion-content">
+                    <div class="completion-icon">✓</div>
+                    <h2>Test Completed Successfully!</h2>
+                    <p>Thank you for completing the IELTS Mock Speaking Test.</p>
+                    <p><strong>Your video has been downloaded automatically.</strong></p>
+                    <div class="completion-actions">
+                        <button onclick="location.reload()" class="start-btn">
+                            <span>Take Another Test</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/questions.js"></script>
+    <script src="scripts/speechSynthesis.js"></script>
+    <script src="scripts/timer.js"></script>
+    <script src="scripts/videoRecorder.js"></script>
+    <script src="scripts/testController.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

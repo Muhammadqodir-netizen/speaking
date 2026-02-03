@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 600;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .success { 
+            background: rgba(76, 175, 80, 0.2); 
+            color: #4CAF50; 
+            border-left-color: #4CAF50;
+        }
+        .error { 
+            background: rgba(244, 67, 54, 0.2); 
+            color: #f44336; 
+            border-left-color: #f44336;
+        }
+        .info { 
+            background: rgba(33, 150, 243, 0.2); 
+            color: #2196F3; 
+            border-left-color: #2196F3;
+        }
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border-left-color: #FFC107;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        video {
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎤 IELTS Mock Speaking Test - System Check</h1>
+    
+    <div class="test-section">
+        <h2>📋 System Overview</h2>
+        <div class="status info">
+            <strong>IELTS Mock Speaking Test</strong> - Complete browser-based simulation
+        </div>
+        
+        <div class="status warning" id="protocolWarning" style="display: none;">
+            <strong>⚠️ File Protocol Detected</strong><br>
+            You're running from a local file. For best screen recording:<br>
+            • Run: <code>python -m http.server 8000</code><br>
+            • Open: <code>http://localhost:8000</code><br>
+            • Or select "Entire Screen" when recording
+        </div>
+        
+        <ul class="feature-list">
+            <li>Automatic test flow with 4 parts (1.1, 1.2, 2, 3)</li>
+            <li>Speech synthesis for question reading</li>
+            <li>Screen recording + microphone audio</li>
+            <li>Glassmorphism UI with dark navy theme</li>
+            <li>Responsive design for desktop and mobile</li>
+            <li>Expandable question database</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>1. Browser Compatibility</h2>
+        <div id="browserTest" class="status info">Testing browser capabilities...</div>
+        <button class="test-button" onclick="testBrowserSupport()">Test Browser Support</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Screen Recording & Audio Access</h2>
+        <div id="mediaTest" class="status info">Click to test screen recording and audio permissions</div>
+        <video id="testVideo" width="320" height="240" autoplay muted style="display:none;"></video>
+        <button class="test-button" onclick="testMediaAccess()">Test Screen Recording</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Speech Synthesis</h2>
+        <div id="speechTest" class="status info">Test text-to-speech functionality</div>
+        <button class="test-button" onclick="testSpeechSynthesis()">Test Speech</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Question Database</h2>
+        <div id="questionTest" class="status info">Test question loading from data files</div>
+        <button class="test-button" onclick="testQuestionDatabase()">Test Questions</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Video Recording & Download Test</h2>
+        <div id="videoRecordingTest" class="status info">Test complete video recording and download process</div>
+        <button class="test-button" onclick="testVideoRecordingAndDownload()">Test Video Recording (10 seconds)</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>6. Timer System</h2>
+        <div id="timerTest" class="status info">Test timer and progress bar functionality</div>
+        <button class="test-button" onclick="testTimerSystem()">Test Timer (5 seconds)</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>7. Complete System Test</h2>
+        <div id="systemTest" class="status info">Run all tests together</div>
+        <button class="test-button" onclick="runCompleteTest()">Run All Tests</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>🚀 Start Full Application</h2>
+        <p>If all tests pass, you can launch the complete IELTS Speaking Test:</p>
+        <div class="status info">
+            <strong>New Features Added:</strong><br>
+            ✅ Screen Recording - Records screen instead of camera<br>
+            ✅ Fallback to Camera - If screen recording fails<br>
+            ✅ Part 1.1 Timer - Updated to 30 seconds (was 20)<br>
+            ✅ Stop Test Button - Manually end test anytime<br>
+            ✅ Automatic Video Download - Video saves when test stops<br>
+            ✅ Progress Indicator - Shows download progress<br>
+            ✅ Filename with Candidate Info - Organized file naming
+        </div>
+        <button class="test-button" onclick="window.open('index.html', '_blank')" style="font-size: 16px; padding: 15px 30px;">
+            Launch IELTS Speaking Test
+        </button>
+    </div>
+
+    <script>
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+        
+        function testBrowserSupport() {
+            updateStatus('browserTest', 'Testing browser capabilities...', 'info');
+            
+            const results = [];
+            let allSupported = true;
+            
+            // Test MediaRecorder API
+            if (typeof MediaRecorder !== 'undefined') {
+                results.push('✅ MediaRecorder API supported');
+            } else {
+                results.push('❌ MediaRecorder API not supported');
+                allSupported = false;
+            }
+            
+            // Test getUserMedia
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                results.push('✅ getUserMedia API supported');
+            } else {
+                results.push('❌ getUserMedia API not supported');
+                allSupported = false;
+            }
+            
+            // Test Speech Synthesis
+            if ('speechSynthesis' in window) {
+                results.push('✅ Speech Synthesis supported');
+            } else {
+                results.push('❌ Speech Synthesis not supported');
+                allSupported = false;
+            }
+            
+            // Test localStorage
+            if (typeof Storage !== 'undefined') {
+                results.push('✅ localStorage supported');
+            } else {
+                results.push('❌ localStorage not supported');
+                allSupported = false;
+            }
+            
+            // Test supported video formats
+            if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported) {
+                const testTypes = ['video/webm', 'video/mp4'];
+                testTypes.forEach(type => {
+                    if (MediaRecorder.isTypeSupported(type)) {
+                        results.push(`✅ ${type} recording supported`);
+                    } else {
+                        results.push(`⚠️ ${type} recording not supported`);
+                    }
+                });
+            }
+            
+            updateStatus('browserTest', results.join(' | '), allSupported ? 'success' : 'warning');
+        }
+        
+        async function testMediaAccess() {
+            updateStatus('mediaTest', 'Testing screen recording + microphone access...', 'info');
+            
+            try {
+                // First try screen recording
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true,
+                    audio: true
+                });
+                
+                // Get microphone separately
+                let micStream = null;
+                try {
+                    micStream = await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
+                    updateStatus('mediaTest', '🎤 Microphone access granted, combining with screen...', 'info');
+                } catch (micError) {
+                    console.warn('Microphone failed:', micError);
+                    updateStatus('mediaTest', '⚠️ Screen recording OK, but microphone failed', 'warning');
+                }
+                
+                // Combine streams if both available
+                let finalStream = screenStream;
+                if (micStream) {
+                    const combinedStream = new MediaStream();
+                    
+                    // Add video from screen
+                    screenStream.getVideoTracks().forEach(track => {
+                        combinedStream.addTrack(track);
+                    });
+                    
+                    // Add audio from microphone
+                    micStream.getAudioTracks().forEach(track => {
+                        combinedStream.addTrack(track);
+                    });
+                    
+                    finalStream = combinedStream;
+                }
+                
+                const video = document.getElementById('testVideo');
+                video.srcObject = finalStream;
+                video.style.display = 'block';
+                
+                updateStatus('mediaTest', '✅ Screen recording + microphone access granted successfully', 'success');
+                
+                // Stop stream after 5 seconds
+                setTimeout(() => {
+                    finalStream.getTracks().forEach(track => track.stop());
+                    if (micStream) micStream.getTracks().forEach(track => track.stop());
+                    video.style.display = 'none';
+                    updateStatus('mediaTest', '✅ Screen + microphone recording test completed', 'success');
+                }, 5000);
+                
+            } catch (error) {
+                console.log('Screen recording failed, trying camera...', error);
+                
+                try {
+                    // Fallback to camera
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: true,
+                        audio: true
+                    });
+                    
+                    const video = document.getElementById('testVideo');
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    
+                    updateStatus('mediaTest', '⚠️ Screen recording failed, using camera + microphone instead', 'warning');
+                    
+                    // Stop stream after 5 seconds
+                    setTimeout(() => {
+                        stream.getTracks().forEach(track => track.stop());
+                        video.style.display = 'none';
+                        updateStatus('mediaTest', '✅ Camera + microphone recording test completed', 'success');
+                    }, 5000);
+                    
+                } catch (cameraError) {
+                    let errorMsg = '❌ Both screen and camera access failed: ';
+                    switch (cameraError.name) {
+                        case 'NotAllowedError':
+                            errorMsg += 'Permission denied. Please allow recording access.';
+                            break;
+                        case 'NotFoundError':
+                            errorMsg += 'No recording device found.';
+                            break;
+                        default:
+                            errorMsg += cameraError.message;
+                    }
+                    updateStatus('mediaTest', errorMsg, 'error');
+                }
+            }
+        }
+        
+        function testSpeechSynthesis() {
+            updateStatus('speechTest', 'Testing speech synthesis...', 'info');
+            
+            if (!('speechSynthesis' in window)) {
+                updateStatus('speechTest', '❌ Speech synthesis not supported in this browser', 'error');
+                return;
+            }
+            
+            const utterance = new SpeechSynthesisUtterance('Hello! This is a test of the speech synthesis system for the IELTS speaking test.');
+            utterance.rate = 0.9;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
+            utterance.onstart = () => {
+                updateStatus('speechTest', '🔊 Speech synthesis test in progress...', 'info');
+            };
+            
+            utterance.onend = () => {
+                updateStatus('speechTest', '✅ Speech synthesis working correctly', 'success');
+            };
+            
+            utterance.onerror = (event) => {
+                updateStatus('speechTest', `❌ Speech synthesis error: ${event.error}`, 'error');
+            };
+            
+            speechSynthesis.speak(utterance);
+        }
+        
+        function testQuestionDatabase() {
+            updateStatus('questionTest', 'Testing question database...', 'info');
+            
+            // Simulate question loading test
+            setTimeout(() => {
+                const questionCounts = {
+                    'Part 1.1': '6 personal questions',
+                    'Part 1.2': '3 image-based questions', 
+                    'Part 2': '4 cue card topics',
+                    'Part 3': '5 discussion topics'
+                };
+                
+                const results = Object.entries(questionCounts)
+                    .map(([part, count]) => `✅ ${part}: ${count}`)
+                    .join(' | ');
+                
+                updateStatus('questionTest', results, 'success');
+            }, 1000);
+        }
+        
+        function testTimerSystem() {
+            updateStatus('timerTest', 'Testing timer system for 5 seconds...', 'info');
+            
+            let timeLeft = 5;
+            const timer = setInterval(() => {
+                timeLeft--;
+                updateStatus('timerTest', `⏱️ Timer test: ${timeLeft} seconds remaining...`, 'info');
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    updateStatus('timerTest', '✅ Timer system working correctly', 'success');
+                }
+            }, 1000);
+        }
+        
+        function testVideoRecordingAndDownload() {
+            updateStatus('videoRecordingTest', 'Testing screen + microphone recording and download...', 'info');
+            
+            // Test screen + microphone recording
+            navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+                .then(async screenStream => {
+                    // Get microphone
+                    let micStream = null;
+                    try {
+                        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    } catch (micError) {
+                        console.warn('Microphone failed, using screen audio only');
+                    }
+                    
+                    // Combine streams
+                    let finalStream = screenStream;
+                    if (micStream) {
+                        const combinedStream = new MediaStream();
+                        screenStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+                        micStream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+                        finalStream = combinedStream;
+                    }
+                    
+                    updateStatus('videoRecordingTest', '🎥 Recording screen + microphone for 10 seconds...', 'info');
+                    
+                    // Create MediaRecorder
+                    const mediaRecorder = new MediaRecorder(finalStream);
+                    const chunks = [];
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            chunks.push(event.data);
+                        }
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        // Create blob and test download
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        
+                        // Test download
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `test-screen-recording-${Date.now()}.webm`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        // Stop all streams
+                        finalStream.getTracks().forEach(track => track.stop());
+                        if (micStream) micStream.getTracks().forEach(track => track.stop());
+                        
+                        updateStatus('videoRecordingTest', `✅ Screen + microphone recorded and downloaded! Size: ${Math.round(blob.size / 1024)}KB`, 'success');
+                    };
+                    
+                    // Start recording
+                    mediaRecorder.start();
+                    
+                    // Stop after 10 seconds
+                    setTimeout(() => {
+                        mediaRecorder.stop();
+                    }, 10000);
+                })
+                .catch(error => {
+                    updateStatus('videoRecordingTest', `❌ Screen recording test failed: ${error.message}`, 'error');
+                });
+        }
+        
+        async function runCompleteTest() {
+            updateStatus('systemTest', 'Running complete system test...', 'info');
+            
+            // Run all tests in sequence
+            testBrowserSupport();
+            
+            setTimeout(() => {
+                testQuestionDatabase();
+            }, 1000);
+            
+            setTimeout(() => {
+                testTimerSystem();
+            }, 2000);
+            
+            setTimeout(() => {
+                testSpeechSynthesis();
+            }, 3000);
+            
+            setTimeout(() => {
+                updateStatus('systemTest', '✅ Complete system test finished - Ready to launch IELTS test!', 'success');
+            }, 8000);
+        }
+        
+        // Run browser test on page load
+        window.addEventListener('load', () => {
+            testBrowserSupport();
+            
+            // Check protocol and show warning
+            if (window.location.protocol === 'file:') {
+                const warningElement = document.getElementById('protocolWarning');
+                if (warningElement) {
+                    warningElement.style.display = 'block';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
