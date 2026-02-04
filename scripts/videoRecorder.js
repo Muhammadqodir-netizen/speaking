@@ -43,7 +43,7 @@ class VideoRecorder {
                 this.showProtocolWarning();
             }
             
-            // Enhanced display media options
+            // Enhanced display media options for better tab detection
             const displayMediaOptions = {
                 video: {
                     width: { ideal: 1920, max: 1920 },
@@ -51,20 +51,26 @@ class VideoRecorder {
                     frameRate: { ideal: 30, max: 30 },
                     cursor: 'always'
                 },
-                audio: {
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    sampleRate: 44100
-                }
+                audio: false, // Don't request tab audio, we'll use microphone
+                selfBrowserSurface: 'include',
+                surfaceSwitching: 'include',
+                systemAudio: 'exclude'
             };
             
             // Try to get screen recording with retry mechanism
             let attempts = 0;
-            const maxAttempts = 3;
+            const maxAttempts = 2; // Reduce attempts
             
             while (attempts < maxAttempts) {
                 try {
                     console.log(`Screen recording attempt ${attempts + 1}/${maxAttempts}`);
+                    
+                    // Force browser to refresh available sources
+                    if (attempts > 0) {
+                        // Wait and try with different options
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                        displayMediaOptions.preferCurrentTab = true;
+                    }
                     
                     this.stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
                     
@@ -82,9 +88,6 @@ class VideoRecorder {
                     if (attempts >= maxAttempts) {
                         throw attemptError;
                     }
-                    
-                    // Wait before retry
-                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             }
             
