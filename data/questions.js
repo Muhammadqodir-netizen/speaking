@@ -12,32 +12,402 @@ const QUESTIONS_DATA = {
         questions: [
             {
                 id: 1,
-                text: "Let's talk about your hometown. Where are you from and what do you like most about your hometown?",
+                text: "What is your full name?",
                 part: "1.1"
             },
             {
                 id: 2,
-                text: "Do you work or are you a student? Can you describe what you do or what you study?",
+                text: "Can you tell me about your hometown?",
                 part: "1.1"
             },
             {
                 id: 3,
-                text: "What do you like to do in your free time? How do you usually spend your weekends?",
+                text: "Do you like living in your hometown?",
                 part: "1.1"
             },
             {
                 id: 4,
-                text: "Tell me about your family. How many people are in your family and what do they do?",
+                text: "How long have you lived there?",
                 part: "1.1"
             },
             {
                 id: 5,
-                text: "What kind of music do you enjoy listening to? Has your taste in music changed over the years?",
+                text: "Is your hometown a good place for young people?",
                 part: "1.1"
             },
             {
                 id: 6,
-                text: "Do you prefer to live in a house or an apartment? Why do you prefer that type of accommodation?",
+                text: "Do you work or study?",
+                part: "1.1"
+            },
+            {
+                id: 7,
+                text: "Why did you choose this job or field of study?",
+                part: "1.1"
+            },
+            {
+                id: 8,
+                text: "Do you enjoy what you do?",
+                part: "1.1"
+            },
+            {
+                id: 9,
+                text: "What do you usually do in the morning?",
+                part: "1.1"
+            },
+            {
+                id: 10,
+                text: "How do you usually spend your evenings?",
+                part: "1.1"
+            },
+            {
+                id: 11,
+                text: "Do you like spending time alone or with others?",
+                part: "1.1"
+            },
+            {
+                id: 12,
+                text: "What do you usually do in your free time?",
+                part: "1.1"
+            },
+            {
+                id: 13,
+                text: "Do you have any hobbies?",
+                part: "1.1"
+            },
+            {
+                id: 14,
+                text: "How often do you do your hobbies?",
+                part: "1.1"
+            },
+            {
+                id: 15,
+                text: "Did you have the same hobbies as a child?",
+                part: "1.1"
+            },
+            {
+                id: 16,
+                text: "What hobby would you like to try in the future?",
+                part: "1.1"
+            },
+            {
+                id: 17,
+                text: "Do you think hobbies are important?",
+                part: "1.1"
+            },
+            {
+                id: 18,
+                text: "Do you prefer indoor or outdoor activities?",
+                part: "1.1"
+            },
+            {
+                id: 19,
+                text: "How much free time do you usually have?",
+                part: "1.1"
+            },
+            {
+                id: 20,
+                text: "Do you think people today have enough free time?",
+                part: "1.1"
+            },
+            {
+                id: 21,
+                text: "Do you like music?",
+                part: "1.1"
+            },
+            {
+                id: 22,
+                text: "What kind of music do you like most?",
+                part: "1.1"
+            },
+            {
+                id: 23,
+                text: "How often do you listen to music?",
+                part: "1.1"
+            },
+            {
+                id: 24,
+                text: "Do you listen to music while studying or working?",
+                part: "1.1"
+            },
+            {
+                id: 25,
+                text: "Who is your favourite singer or band?",
+                part: "1.1"
+            },
+            {
+                id: 26,
+                text: "Do you like watching movies?",
+                part: "1.1"
+            },
+            {
+                id: 27,
+                text: "What is your favourite type of movie?",
+                part: "1.1"
+            },
+            {
+                id: 28,
+                text: "How often do you watch movies?",
+                part: "1.1"
+            },
+            {
+                id: 29,
+                text: "Do you prefer watching movies at home or in the cinema?",
+                part: "1.1"
+            },
+            {
+                id: 30,
+                text: "What was the last movie you watched?",
+                part: "1.1"
+            },
+            {
+                id: 31,
+                text: "Do you like cooking?",
+                part: "1.1"
+            },
+            {
+                id: 32,
+                text: "How often do you cook at home?",
+                part: "1.1"
+            },
+            {
+                id: 33,
+                text: "What is your favourite food?",
+                part: "1.1"
+            },
+            {
+                id: 34,
+                text: "Do you prefer home-made food or fast food?",
+                part: "1.1"
+            },
+            {
+                id: 35,
+                text: "Is there any food you dislike?",
+                part: "1.1"
+            },
+            {
+                id: 36,
+                text: "How often do you eat out?",
+                part: "1.1"
+            },
+            {
+                id: 37,
+                text: "What kind of food is popular in your country?",
+                part: "1.1"
+            },
+            {
+                id: 38,
+                text: "Do you like trying new foods?",
+                part: "1.1"
+            },
+            {
+                id: 39,
+                text: "Is healthy food important for you?",
+                part: "1.1"
+            },
+            {
+                id: 40,
+                text: "Have your eating habits changed recently?",
+                part: "1.1"
+            },
+            {
+                id: 41,
+                text: "Do you like sports?",
+                part: "1.1"
+            },
+            {
+                id: 42,
+                text: "What is your favourite sport?",
+                part: "1.1"
+            },
+            {
+                id: 43,
+                text: "How often do you exercise?",
+                part: "1.1"
+            },
+            {
+                id: 44,
+                text: "Did you play sports when you were a child?",
+                part: "1.1"
+            },
+            {
+                id: 45,
+                text: "Do you prefer team sports or individual sports?",
+                part: "1.1"
+            },
+            {
+                id: 46,
+                text: "Is sport popular in your country?",
+                part: "1.1"
+            },
+            {
+                id: 47,
+                text: "How do you keep yourself healthy?",
+                part: "1.1"
+            },
+            {
+                id: 48,
+                text: "Do you think young people are healthy today?",
+                part: "1.1"
+            },
+            {
+                id: 49,
+                text: "Do you walk a lot every day?",
+                part: "1.1"
+            },
+            {
+                id: 50,
+                text: "What do you do when you feel stressed?",
+                part: "1.1"
+            },
+            {
+                id: 51,
+                text: "Do you use the internet every day?",
+                part: "1.1"
+            },
+            {
+                id: 52,
+                text: "How often do you use your phone?",
+                part: "1.1"
+            },
+            {
+                id: 53,
+                text: "What do you usually use the internet for?",
+                part: "1.1"
+            },
+            {
+                id: 54,
+                text: "Do you like using social media?",
+                part: "1.1"
+            },
+            {
+                id: 55,
+                text: "Which social media app do you use most?",
+                part: "1.1"
+            },
+            {
+                id: 56,
+                text: "Do you think technology makes life easier?",
+                part: "1.1"
+            },
+            {
+                id: 57,
+                text: "Do you prefer texting or calling?",
+                part: "1.1"
+            },
+            {
+                id: 58,
+                text: "How many hours a day do you spend online?",
+                part: "1.1"
+            },
+            {
+                id: 59,
+                text: "Do you think people use phones too much?",
+                part: "1.1"
+            },
+            {
+                id: 60,
+                text: "What would you do without the internet?",
+                part: "1.1"
+            },
+            {
+                id: 61,
+                text: "Do you like travelling?",
+                part: "1.1"
+            },
+            {
+                id: 62,
+                text: "How often do you travel?",
+                part: "1.1"
+            },
+            {
+                id: 63,
+                text: "What is your favourite place you have visited?",
+                part: "1.1"
+            },
+            {
+                id: 64,
+                text: "Do you prefer travelling alone or with others?",
+                part: "1.1"
+            },
+            {
+                id: 65,
+                text: "What kind of places do you like visiting?",
+                part: "1.1"
+            },
+            {
+                id: 66,
+                text: "Do you like long trips or short trips?",
+                part: "1.1"
+            },
+            {
+                id: 67,
+                text: "Have you ever travelled abroad?",
+                part: "1.1"
+            },
+            {
+                id: 68,
+                text: "Where would you like to travel in the future?",
+                part: "1.1"
+            },
+            {
+                id: 69,
+                text: "Do you usually take photos when you travel?",
+                part: "1.1"
+            },
+            {
+                id: 70,
+                text: "What do you like most about travelling?",
+                part: "1.1"
+            },
+            {
+                id: 71,
+                text: "Do you live in a house or an apartment?",
+                part: "1.1"
+            },
+            {
+                id: 72,
+                text: "Do you like your home?",
+                part: "1.1"
+            },
+            {
+                id: 73,
+                text: "What is your favourite room in your home?",
+                part: "1.1"
+            },
+            {
+                id: 74,
+                text: "Do you like decorating your room?",
+                part: "1.1"
+            },
+            {
+                id: 75,
+                text: "How often do you clean your room?",
+                part: "1.1"
+            },
+            {
+                id: 76,
+                text: "Do you prefer a quiet or noisy place?",
+                part: "1.1"
+            },
+            {
+                id: 77,
+                text: "Do you like reading books?",
+                part: "1.1"
+            },
+            {
+                id: 78,
+                text: "What is your favourite book or author?",
+                part: "1.1"
+            },
+            {
+                id: 79,
+                text: "How often do you read?",
+                part: "1.1"
+            },
+            {
+                id: 80,
+                text: "Do you prefer reading books or watching videos?",
                 part: "1.1"
             }
         ]
@@ -50,8 +420,8 @@ const QUESTIONS_DATA = {
         questions: [
             {
                 id: 1,
-                text: "Describe what you can see in this picture. What are the people doing?",
-                image: "images/family_park.jpg",
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Gemini_Generated_Image_70gaae70gaae70ga.png",
                 readingTime: 5,
                 answerTime: 40,
                 part: "1.2",
@@ -59,38 +429,178 @@ const QUESTIONS_DATA = {
             },
             {
                 id: 2,
-                text: "What do you think the relationship is between the people in this picture?",
-                image: "images/family_park.jpg",
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/unnamed (1).jpg",
                 readingTime: 5,
-                answerTime: 30,
+                answerTime: 40,
                 part: "1.2",
-                type: "analyze"
+                type: "describe"
             },
             {
                 id: 3,
-                text: "How do you think the people in this picture are feeling? What makes you think that?",
-                image: "images/family_park.jpg",
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/unnamed.jpg",
                 readingTime: 5,
-                answerTime: 30,
+                answerTime: 40,
                 part: "1.2",
-                type: "interpret"
+                type: "describe"
+            },
+            {
+                id: 4,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134030.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 5,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134126.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 6,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134134.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 7,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134233.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 8,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134247.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 9,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134259.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 10,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134310.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 11,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134319.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 12,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134328.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
+            },
+            {
+                id: 13,
+                text: "Describe what you see in this picture.",
+                image: "part1.2 picture/Снимок экрана 2026-02-04 134431.png",
+                readingTime: 5,
+                answerTime: 40,
+                part: "1.2",
+                type: "describe"
             }
         ],
         images: [
             {
-                id: "family_park",
-                src: "images/family_park.jpg",
-                alt: "Family enjoying time in a park"
+                id: "gemini_image",
+                src: "part1.2 picture/Gemini_Generated_Image_70gaae70gaae70ga.png",
+                alt: "Generated image for description"
             },
             {
-                id: "office_meeting",
-                src: "images/office_meeting.jpg", 
-                alt: "Business meeting in an office"
+                id: "unnamed_1",
+                src: "part1.2 picture/unnamed (1).jpg",
+                alt: "Picture for description"
             },
             {
-                id: "restaurant_scene",
-                src: "images/restaurant_scene.jpg",
-                alt: "People dining in a restaurant"
+                id: "unnamed_2",
+                src: "part1.2 picture/unnamed.jpg",
+                alt: "Picture for description"
+            },
+            {
+                id: "screenshot_1",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134030.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_2",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134126.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_3",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134134.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_4",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134233.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_5",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134247.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_6",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134259.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_7",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134310.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_8",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134319.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_9",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134328.png",
+                alt: "Screenshot for description"
+            },
+            {
+                id: "screenshot_10",
+                src: "part1.2 picture/Снимок экрана 2026-02-04 134431.png",
+                alt: "Screenshot for description"
             }
         ]
     },
